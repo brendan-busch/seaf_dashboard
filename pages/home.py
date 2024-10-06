@@ -96,6 +96,53 @@ def home_layout():
             "margin-top": "0px",
             "margin-bottom": "20px"
         }),
+        # Add a button to open the guide modal
+        html.Div([
+            dbc.Button("🚀 How to Explore the Dashboard", 
+                       id="open-guide-modal", 
+                       className="bounce-animated delayed-start mb-4", 
+                       color="primary", 
+                       style={"font-size": "18px", "font-weight": "bold"}
+            ),
+        ], style={"text-align": "center"}),
+        
+        # Guide Modal
+        dbc.Modal([
+            dbc.ModalHeader("🌟 Dashboard Guide"),
+            dbc.ModalBody([
+                html.H5("Welcome to the Dashboard!"),
+                html.P("This dashboard presents environmental datasets collected from various agencies. Here's how you can make the most out of it:"),
+                        html.Ul([
+                            html.Li([
+                                "Use the sidebar to navigate different datasets by clicking the ", 
+                                html.Span([
+                                    html.I(className="fas fa-database", style={"margin-right": "5px"}),
+                                    html.B("Datasets")
+                                ], style={"color": "green"}), 
+                                " button."
+                            ]),
+                            html.Li([
+                                "In each dataset layout, click the ", 
+                                html.B("About"), 
+                                " section to learn more about the dataset properties, source, and data processing."
+                            ]),
+                            html.Li([
+                                "Click on the map layer (left side) under each layout and explore dataset positions as well as the WMS layer."
+                            ]),
+                            html.Li([
+                                "Use the dropdowns and filters to customize your view of the data."
+                            ]),
+                        ], className="custom-list"),
+                html.P("Feel free to reach out for further assistance using the contact links below."),
+                html.P([
+                    html.I(className="fas fa-envelope", style={"color": "blue", "margin-right": "5px"}),
+                    html.A("Md Rony Golder", href="mailto:mdrony.golder@uwa.edu.au", style={"color": "blue"})
+                ])
+            ]),
+            dbc.ModalFooter(
+                dbc.Button("Close", id="close-guide-modal", className="ml-auto", color="secondary")
+            ),
+        ], id="guide-modal", is_open=False),
 
         # Cards for key information
         dbc.Container([
@@ -162,7 +209,7 @@ def home_layout():
                         ], style={"margin-bottom": "20px"}),  # Add space between lists
                         html.H4("Programs", style={"font-weight": "bold"}),  # Heading
                         html.Ul([  # Unordered list
-                            html.Li([html.Span("GlobColour: ", style={"font-weight": "bold"}), "Ocean Colour"]),
+                            html.Li([html.Span("GlobColour: ", style={"font-weight": "bold"}), "Global Ocean Colour"]),
                             html.Li([html.Span("GHRSST: ", style={"font-weight": "bold"}), "Group for High Resolution Sea Surface Temperature"]),
                             html.Li([html.Span("NEMO: ", style={"font-weight": "bold"}), "Nucleus for European Modelling of the Ocean"]),
                             html.Li([html.Span("PISCES: ", style={"font-weight": "bold"}), "Pelagic Interactions Scheme for Carbon and Ecosystem Studies"]),
@@ -197,12 +244,80 @@ def home_layout():
 
         # Footer with contact information
         dbc.Container([
-            html.Hr(),
+            # Central container for left and right parts
             dbc.Row([
                 dbc.Col([
-                    html.P("© 2024 Md Rony Golder. All rights reserved.", style={"text-align": "center"}),
-                    html.A("MD RONY GOLDER", href="mailto:mdrony.golder@uwa.edu.au", style={"display": "block", "text-align": "center", "color": "blue"}),
-                ], width=12),
+                    # Left: WAMSI logo and social icons
+                    html.Div([
+                        html.A(
+                            html.Img(
+                                src="assets/wamsi-logo.png",  # Replace with actual WAMSI logo URL
+                                height="50px", style={"margin-right": "15px"}
+                            ),
+                            href="https://www.wamsi.org.au", target="_blank"
+                        ),
+                        html.Div([
+                            html.A(
+                                html.I(className="fab fa-facebook-f fa-lg"),
+                                href="https://www.facebook.com/WesternAustralianMarineScience", target="_blank",
+                                style={"margin-right": "15px", "color": "#4267B2"}
+                            ),
+                            html.A(
+                                html.I(className="fab fa-youtube fa-lg"),
+                                href="https://www.youtube.com/user/WAMSIHQ", target="_blank",
+                                style={"margin-right": "15px", "color": "#FF0000"}
+                            ),
+                            html.A(
+                                html.I(className="fab fa-linkedin fa-lg"),
+                                href="https://www.linkedin.com/company/wamsi/", target="_blank",
+                                style={"margin-right": "15px", "color": "#0A66C2"}
+                            ),
+                            html.A(
+                                html.I(className="fab fa-instagram fa-lg"),
+                                href="https://www.instagram.com/westernaustralianmarinescience", target="_blank",
+                                style={"color": "#E1306C"}
+                            ),
+                        ], style={"display": "flex", "align-items": "center"})
+                    ], style={"display": "flex", "align-items": "center", "justify-content": "flex-end"})
+                ], width=5, style={"text-align": "right"}),
+        
+                # Vertical black line
+                dbc.Col(html.Div(style={"border-right": "3px solid black", "height": "60px"}), width=1, style={"padding": "30px"}),
+        
+                # Right: GitHub link, copyright, email
+                dbc.Col([
+                    html.Div([
+                        # GitHub link
+                        html.A(
+                            html.I(className="fab fa-github fa-lg"),
+                            href="https://github.com/ronygolderku/seaf_dashboard", target="_blank",
+                            style={"color": "#000000", "display": "inline-block", "margin-right": "5px"}
+                        ),
+                        html.A("View Source Code", href="https://github.com/ronygolderku/seaf_dashboard", target="_blank",
+                               style={"font-size": "12px", "color": "#000000", "display": "inline-block", "margin-right": "15px"}),
+        
+                        # Email
+                        html.Div([
+                            html.I(className="fas fa-envelope", style={"color": "blue", "margin-right": "5px"}),
+                            html.A("Md Rony Golder", href="mailto:mdrony.golder@uwa.edu.au", style={"color": "blue", "font-size": "12px"})
+                        ], style={"display": "inline-block", "margin-right": "15px"}),
+        
+                        # Copyright
+                        html.P("© 2024 Md Rony Golder. All rights reserved.", style={"font-size": "12px", "display": "inline-block", "margin-bottom": "0"})
+                    ], style={"display": "flex", "align-items": "center", "justify-content": "flex-start"})
+                ], width=5, style={"padding-left": "0"})
+            ], style={"display": "flex", "align-items": "center", "justify-content": "center"}),
+        
+            # Bottom: Acknowledgment text
+            dbc.Row([
+                dbc.Col([
+                    html.P(
+                        "WAMSI acknowledges the traditional custodians of Country throughout Western Australia and their "
+                        "continuing connection to land, culture and community. We pay our respects to elders past and present.",
+                        style={"font-size": "10px", "text-align": "center"}
+                    ),
+                ], width=12, style={"display": "flex", "align-items": "center", "justify-content": "center"})
             ]),
-        ], fluid=True, style={"padding": "20px 0", "background-color": "#f8f9fa"}),
+        
+        ], fluid=True, style={"padding": "5px 0", "background-color": "#f8f9fa", "border-top": "1px solid #dee2e6", "border-bottom": "1px solid #dee2e6"})
     ])
