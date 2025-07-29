@@ -58,7 +58,7 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
         html.H2(f'{title} Data Visualization', className="heading"),
         html.Hr(),
 
-        # Create a two-column layout
+        # Create a two-column layout with proper scaling control
         html.Div([
             # Left side: Leaflet map
             html.Div([
@@ -98,8 +98,7 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
                             ], position="topright"
                         )
                     ],
-                    style={'width': '100%', 'height': '100%'},
-                    center=[-32.1, 115.4], zoom=9, id=map_id
+                    center=[-32.1, 115.4], zoom=9, id=map_id, className="data-map"
                 )
             ], className='left-panel'),  # CSS class for map responsiveness
 
@@ -117,11 +116,10 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
                                         dcc.Dropdown(
                                             id="variable-selector",
                                             options=variable_options,
-                                            className="input-dropdown",
-                                             style={'width': '300px'}
+                                            className="input-dropdown variable-dropdown"
                                         )
-                                    ], className="input-group", style={'flex': '1'}),
-            
+                                    ], className="input-group"),
+
                                     html.Div([
                                         html.Label("Select AOI Type"),
                                         dcc.Dropdown(
@@ -130,10 +128,10 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
                                                 {'label': 'Point', 'value': 'point'},
                                                 {'label': 'Polygon', 'value': 'polygon'}
                                             ],
-                                            className="input-dropdown", style={'width': '270px'}
+                                            className="input-dropdown aoi-dropdown"
                                         )
-                                    ], className="input-group", style={'flex': '1'}),
-            
+                                    ], className="input-group"),
+
                                     # Conditional Point/Polygon Selector
                                     html.Div([
                                         html.Div([
@@ -143,18 +141,18 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
                                                 options=[{'label': f'Point {i}', 'value': str(i)} for i in range(1, point_range)],
                                                 className="input-dropdown"
                                             )
-                                        ], id='point-selector', style={'display': 'none'}),
-            
+                                        ], id='point-selector', className="point-selector", style={'display': 'none'}),
+
                                         html.Div([
                                             html.Label("Select Polygon"),
                                             dcc.Dropdown(
                                                 id="coordinate-input-polygon",
                                                 options=[{'label': f'Polygon {i}', 'value': str(i)} for i in range(1, 7)],
-                                                className="input-dropdown"
+                                                className="input-dropdown polygon-dropdown"
                                             )
-                                        ], id='polygon-selector', style={'display': 'none'})
-                                    ], className="input-group", style={'flex': '1'}),
-            
+                                        ], id='polygon-selector', className="polygon-selector", style={'display': 'none'})
+                                    ], className="input-group"),
+
                                     # Date Range Pickers
                                     html.Div([
                                         html.Div([
@@ -185,7 +183,27 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
                                     html.Button('Plot', id='plot-button', className="plot-btn"),
             
                                     # Graph Output
-                                    dcc.Graph(id='output-plot', className="graph-output"),
+                                    dcc.Graph(
+                                        id='output-plot', 
+                                        className="graph-output",
+                                        config={
+                                            'responsive': False,  # Disable responsive to prevent resizing loop
+                                            'displayModeBar': True,
+                                            'staticPlot': False,
+                                            'autosizable': False,  # Disable auto-sizing to prevent growth
+                                            'toImageButtonOptions': {
+                                                'format': 'png',
+                                                'filename': 'plot',
+                                                'height': 400,
+                                                'width': 600,
+                                                'scale': 1
+                                            }
+                                        },
+                                        style={
+                                            'width': '100%',
+                                            'height': '400px'
+                                        }
+                                    ),
                                 ], className="controls-container")
                             ]),
             
@@ -199,13 +217,13 @@ def create_layout(title, map_id, variable_options, dataset_type, geojson_data, p
                         children=[
                             html.Div([
                                 dataset_info
-                            ], style={'padding': '20px'})
+                            ], className="about-section")
                         ],
                     )
-                ], id="tabs", active_tab="tab-1", className="tabs-container"),
+                ], id="tabs", className="tabs-container", active_tab="tab-1"),
             ], className='right-panel')  # CSS class for content responsiveness
-            ], className='main-content')  # Flex container for main content
-            ], className='layout-wrapper')
+        ], className='main-content data-viz-container')  # Flex container with scaling control
+    ], className='layout-wrapper')
 
 
 # Now use the generic function to create specific layouts
@@ -215,10 +233,11 @@ def olci_layout():
     chl_layer = [
         dl.Overlay(
             dl.TileLayer(
-        url="https://wmts.marine.copernicus.eu/teroWmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-olci-4km_P1D_202207/CHL&FORMAT=image/png&TILEMATRIXSET=EPSG:3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&style=cmap:jet,logScale",
+        url="https://wmts.marine.copernicus.eu/teroWmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-olci-300m_P1D_202211/CHL&FORMAT=image/png&TILEMATRIXSET=EPSG:3857&TILEMATRIX={z}&TILEROW={y}&TILECOL={x}&style=cmap:jet,logScale",
         opacity=0.7, attribution="Copernicus Marine Service"
     ), name="Chlorophyll-a", checked=False)
     ]
+
 
     return create_layout(
         title="Sentinel Chlorophyll-a",
@@ -317,7 +336,7 @@ def plankton_layout():
     wmts_layers = [
         dl.Overlay(
             dl.TileLayer(
-                url=f"https://wmts.marine.copernicus.eu/teroWmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202311/{variable}&FORMAT=image/png&TILEMATRIXSET=EPSG:3857&TILEMATRIX={{z}}&TILEROW={{y}}&TILECOL={{x}}&style=cmap:algae",
+                url=f"https://wmts.marine.copernicus.eu/teroWmts?SERVICE=WMTS&REQUEST=GetTile&VERSION=1.0.0&LAYER=OCEANCOLOUR_GLO_BGC_L3_MY_009_103/cmems_obs-oc_glo_bgc-plankton_my_l3-multi-4km_P1D_202411/{variable}&FORMAT=image/png&TILEMATRIXSET=EPSG:3857&TILEMATRIX={{z}}&TILEROW={{y}}&TILECOL={{x}}&style=cmap:algae",
                 opacity=0.7,
                 attribution="Copernicus Marine Service"
             ),

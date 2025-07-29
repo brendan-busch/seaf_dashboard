@@ -3,8 +3,8 @@ import boto3
 import pandas as pd
 import plotly.express as px
 import geopandas as gpd
+import dash
 from dash import Input, Output, State, dcc, html
-from dash import Input, Output, State
 from pages.home import home_layout
 import dash_leaflet as dl
 #ghrsst_mur_layout, reflectance_layout, plankton_layout
@@ -308,23 +308,42 @@ def register_callbacks(app):
         fig.update_layout(
             font=dict(
                 family="Times New Roman",
-                size=18,  # Adjust font size as needed
-                color="Black"  # Adjust color as needed
+                size=14,
+                color="Black"
             ),
             title=dict(
-                font=dict(size=24, color="#2c3e50"),  # Customize title font and color
-                x=0.5,  # Center the title
+                text=title,  # Use original title - CSS will handle mobile formatting
+                font=dict(size=16, color="#2c3e50"),  # Slightly smaller font for mobile compatibility
+                x=0.5,
                 xanchor='center',
                 yanchor='top'
             ),
-            xaxis_title="Time",  # Customize X-axis label
-            yaxis_title=variable_label,  # Y-axis label from `variable_info`
-            xaxis=dict(showgrid=False),  # Hide gridlines for cleaner look
-            yaxis=dict(showgrid=True, gridcolor='#dddddd'),  # Lighter gridlines for Y-axis
-            template="plotly_white",  # Apply a cleaner, modern template
-            plot_bgcolor='#fafafa',  # Light background color
-            hovermode="x unified",  # Unified hover tooltip for a cleaner display
-            margin=dict(l=50, r=50, t=50, b=50)  # Adjust margins for better spacing
+            xaxis_title="Time",
+            yaxis_title=variable_label,
+            xaxis=dict(
+                showgrid=False,
+                title_font_size=12,
+                tickfont_size=10
+            ),
+            yaxis=dict(
+                showgrid=True, 
+                gridcolor='#dddddd',
+                title_font_size=12,
+                tickfont_size=10
+            ),
+            template="plotly_white",
+            plot_bgcolor='#fafafa',
+            hovermode="x unified",
+            margin=dict(l=50, r=20, t=50, b=40),
+            height=400,
+            autosize=False,  # Disable autosize to prevent growth
+            showlegend=False  # Hide legend to save space
+        )
+
+        # Configure the figure to disable responsive behavior that causes resize loops
+        fig.update_layout(
+            uirevision=True,  # Prevent UI state changes from triggering resizes
+            showlegend=False  # Simplify the plot to reduce resize triggers
         )
 
         # Add hover text format (optional, for extra info on hover)
@@ -401,3 +420,127 @@ def register_callbacks(app):
 
         # Return updated points and highlighted layers
         return points_layer, highlighted_layer
+
+    @app.callback(
+        Output("mobile-sidebar", "is_open"),
+        [Input("sidebar-toggle", "n_clicks"),
+         Input("url", "pathname")],
+        [State("mobile-sidebar", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_sidebar(n, pathname, is_open):
+        ctx = dash.callback_context
+        if not ctx.triggered:
+            return False
+        
+        trigger_id = ctx.triggered[0]['prop_id'].split('.')[0]
+        
+        # If the toggle button was clicked, toggle the sidebar
+        if trigger_id == "sidebar-toggle" and n:
+            return not is_open
+        
+        # If URL changed (navigation link clicked), close the sidebar
+        elif trigger_id == "url":
+            return False
+        
+        return is_open
+
+    # Mobile sidebar button callbacks
+    @app.callback(
+        Output("mobile-datasets-collapse", "is_open"),
+        [Input("mobile-datasets-button", "n_clicks")],
+        [State("mobile-datasets-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_datasets_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-globcolor-collapse", "is_open"),
+        [Input("mobile-globcolor-button", "n_clicks")],
+        [State("mobile-globcolor-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_globcolor_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-sentinel-collapse", "is_open"),
+        [Input("mobile-sentinel-button", "n_clicks")],
+        [State("mobile-sentinel-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_sentinel_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-ghrsst-collapse", "is_open"),
+        [Input("mobile-ghrsst-button", "n_clicks")],
+        [State("mobile-ghrsst-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_ghrsst_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-modis-collapse", "is_open"),
+        [Input("mobile-modis-button", "n_clicks")],
+        [State("mobile-modis-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_modis_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-model-collapse", "is_open"),
+        [Input("mobile-model-button", "n_clicks")],
+        [State("mobile-model-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_model_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-pisces-collapse", "is_open"),
+        [Input("mobile-pisces-link", "n_clicks")],
+        [State("mobile-pisces-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_pisces_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-seapodym-collapse", "is_open"),
+        [Input("mobile-seapodym-link", "n_clicks")],
+        [State("mobile-seapodym-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_seapodym_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open
+
+    @app.callback(
+        Output("mobile-nemo-collapse", "is_open"),
+        [Input("mobile-nemo-link", "n_clicks")],
+        [State("mobile-nemo-collapse", "is_open")],
+        prevent_initial_call=True
+    )
+    def toggle_mobile_nemo_collapse(n, is_open):
+        if n:
+            return not is_open
+        return is_open

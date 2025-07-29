@@ -1,211 +1,1696 @@
-/* /* assets/style.css */
-.nav {
-    display: flex;
+/* Modern Responsive Dashboard Styles */
+
+/* CSS Variables for consistent theming */
+:root {
+    --primary-color: #6366f1; /* Indigo-500 */
+    --primary-dark: #4f46e5; /* Indigo-600 */
+    --secondary-color: #3b82f6; /* Blue-500 */
+    --accent-color: #ea580c; /* Orange-500 */
+    --dark-bg: #111827; /* Gray-900 */
+    --light-bg: #f9fafb; /* Gray-50 */
+    --card-bg: #ffffff;
+    --text-primary: #111827; /* Gray-900 */
+    --text-secondary: #4b5563; /* Gray-500 */
+    --border-color: #d1d5db; /* Gray-300 */
+    --shadow-sm: 0 1px 2px 0 rgba(0, 0, 0, 0.05);
+    --shadow-md: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+    --shadow-lg: 0 10px 15px -3px rgba(0, 0, 0, 0.1);
+    --border-radius: 0.75rem;
+    --transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
 }
 
-.navbar {
-    background-color: black;
-    padding: 2em;
-    
-}
-
-.nav-link {
-    color: green;
-    text-decoration: none;
-    padding: 0 15px;
-
-}
-
-.nav-link:hover {
-    text-decoration: underline;
-}
-/* Content area styles */
-.content {
-    margin-left: 22rem;
-    padding: 2rem 1rem;
+/* Base styles */
+* {
+    box-sizing: border-box;
 }
 
 body {
-    font-family: Arial, sans-serif;
-    background-color: #f8f9fa;
-}
-
-/* Style the tab */
-.tabs-container .nav-link {
-    height: 50px; /* Increase the height */
-    font-weight: bold; /* Make the font bold */
-    display: flex;
-    align-items: center;
-    justify-content: center;
-  }
-  
-  /* Optional: Adjust padding for better alignment */
-  .tabs-container .nav-link {
-    padding: 0 20px; /* Adjust padding as needed */
-  }
-  
-
-/* Full container */
-.layout-wrapper {
-    width: 100%;
-    padding: 0;
+    font-family: 'Nunito', sans-serif;
+    background: var(--light-bg);
+    color: var(--text-primary);
     margin: 0;
+    padding: 0;
+    line-height: 1.6;
 }
 
-.heading {
-    text-align: center;
-    font-weight: bold;
-    margin-top: 0%;
-    background-color:#0056b3;
-    color: white;
-    padding: 15px;
-    margin-bottom: 0%;
+/* Prevent automatic scaling issues */
+* {
+    box-sizing: border-box;
+}
+
+/* Fix for data visualization layout */
+.data-viz-container {
     width: 100%;
-    top: 0%;
-    left: 0%;
-    right: 0%;
+    max-width: 100vw;
+    overflow-x: hidden;
 }
 
-/* Main content with left map and right side controls */
-.main-content {
-    display: flex;
-    justify-content: space-between;
-    flex-wrap: wrap;
+.data-viz-container .left-panel,
+.data-viz-container .right-panel {
+    min-width: 300px;
+    max-width: 600px;
 }
 
-/* Left panel (Map) */
-.left-panel {
-    flex: 1 1 30%;  /* Allows flexibility for responsiveness */
-    padding: 10px;
-    box-sizing: border-box;
-    height: 100vh;  /* Full height */
+/* Sidebar Styles */
+#sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    height: 100vh;
+    width: 280px;
+    background: linear-gradient(180deg, var(--dark-bg) 0%, #374151 100%);
+    border-right: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 1.5rem;
+    transition: var(--transition);
+    display: block; /* Always visible on desktop */
 }
 
-/* Right panel (Controls) */
-.right-panel {
-    flex: 1 1 65%;
-    padding: 10px;
-    box-sizing: border-box;
-    height: 100vh;  /* Full height */
+/* Mobile sidebar - Offcanvas should be handled by Bootstrap */
+/* Ensure mobile sidebar content has proper styling */
+#mobile-sidebar .offcanvas-body {
+    padding: 1rem;
+    background: linear-gradient(180deg, #111827 0%, #374151 100%);
+    color: #e5e7eb;
 }
 
-/* Control elements in the right panel */
-.controls-container {
+/* Mobile sidebar buttons - basic styles (detailed styles in media query below) */
+
+#sidebar::-webkit-scrollbar {
+    width: 6px;
+}
+
+#sidebar::-webkit-scrollbar-track {
+    background: rgba(255, 255, 255, 0.1);
+    border-radius: 3px;
+}
+
+#sidebar::-webkit-scrollbar-thumb {
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 3px;
+}
+
+#sidebar::-webkit-scrollbar-thumb:hover {
+    background: rgba(255, 255, 255, 0.5);
+}
+
+/* Sidebar Logo */
+#sidebar img {
+    width: 100%;
+    height: auto;
+    max-width: 180px;
+    margin-bottom: 1.5rem;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+}
+
+/* Sidebar Navigation */
+#sidebar .nav-link {
+    color: #e5e7eb;
+    text-decoration: none;
+    padding: 0.75rem 1rem;
+    margin: 0.25rem 0;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
     display: flex;
     align-items: center;
-    gap: 20px;
-    flex-wrap: wrap;
-    align-items: flex-start; /* Align top of elements */
-    padding: 10px 0;
+    font-weight: 500;
+    font-size: 0.95rem;
 }
 
-@keyframes boom {
-    0% { transform: scale(1); }
-    20% { transform: scale(1.3); }
-    40% { transform: scale(0.9); }
-    60% { transform: scale(1.1); }
-    80% { transform: scale(0.95); }
-    100% { transform: scale(1); }
+#sidebar .nav-link:hover {
+    background: rgba(255, 255, 255, 0.1);
+    color: #ffffff;
+    transform: translateX(4px);
 }
 
-#open-guide-modal {
-    animation: boom 2s ease-in-out;
-    animation-iteration-count: 1;
-    box-shadow: 0 0 10px rgba(0, 123, 255, 0.5), 0 0 20px rgba(0, 123, 255, 0.5), 0 0 30px rgba(0, 123, 255, 0.5);
+#sidebar .nav-link.active {
+    background: var(--primary-color);
+    color: #ffffff;
+    box-shadow: var(--shadow-md);
 }
 
+#sidebar .nav-link i {
+    margin-right: 0.75rem;
+    width: 18px;
+    text-align: center;
+}
+
+/* Sidebar Headers */
+#sidebar h2, #sidebar h6 {
+    color: #d1d5db;
+    font-size: 1.1rem;
+    font-weight: 600;
+    margin: 1.5rem 0 0.75rem 0;
+    padding-bottom: 0.5rem;
+    border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+}
+
+#sidebar h6 {
+    font-size: 0.9rem;
+    margin-top: 1rem;
+}
+
+/* Sidebar Buttons */
+#sidebar .btn {
+    background: transparent;
+    border: 1px solid rgba(255, 255, 255, 0.2);
+    color: #e5e7eb;
+    padding: 0.75rem 1rem;
+    border-radius: var(--border-radius);
+    transition: var(--transition);
+    margin: 0.25rem 0;
+    width: 100%;
+    text-align: left;
+    display: flex;
+    align-items: center;
+}
+
+#sidebar .btn:hover {
+    background: rgba(255, 255, 255, 0.1);
+    border-color: rgba(255, 255, 255, 0.3);
+    color: #ffffff;
+}
+
+#sidebar .btn i {
+    margin-right: 0.75rem;
+}
+
+/* Main Content Area */
+.content {
+    margin-left: 280px;
+    min-height: 100vh;
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+/* Header Section */
+.header-section {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    padding: 3rem 2rem;
+    border-radius: var(--border-radius);
+    margin-bottom: 2rem;
+    position: relative;
+    overflow: hidden;
+    box-shadow: var(--shadow-lg);
+}
+
+.header-section::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: url('/assets/back_ground.jpg') center/cover;
+    opacity: 0.1;
+    z-index: 0;
+}
+
+.header-section > * {
+    position: relative;
+    z-index: 1;
+}
+
+.header-section h1 {
+    font-size: 3rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    text-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+}
+
+.header-section h5 {
+    font-size: 1.25rem;
+    font-weight: 400;
+    opacity: 0.9;
+    margin-bottom: 1rem;
+}
+
+.header-section p {
+    font-size: 1.1rem;
+    opacity: 0.85;
+    max-width: 600px;
+    margin: 0 auto;
+}
+
+/* Card Styles */
+.card {
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    padding: 2rem;
+    margin-bottom: 2rem;
+    box-shadow: var(--shadow-md);
+    border: 1px solid var(--border-color);
+    transition: transform 0.2s ease-in-out, box-shadow 0.2s ease-in-out;
+}
+
+.card:hover {
+    box-shadow: 0 8px 16px 0 rgba(0,0,0,0.2);
+    transform: translateY(-5px);
+}
+
+/* Button Styles */
+.btn-primary {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    border: none;
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+}
+
+.btn-primary:hover {
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+    background: linear-gradient(135deg, var(--primary-dark) 0%, #1e40af 100%);
+}
+
+.btn-secondary {
+    background: var(--secondary-color);
+    border: none;
+    color: white;
+    padding: 0.75rem 1.5rem;
+    border-radius: var(--border-radius);
+    font-weight: 500;
+    cursor: pointer;
+    transition: var(--transition);
+}
+
+.btn-secondary:hover {
+    background: #059669;
+    transform: translateY(-1px);
+}
+
+/* Guide Button Animation */
+@keyframes pulse {
+    0%, 100% { transform: scale(1); }
+    50% { transform: scale(1.05); }
+}
+
+.bounce-animated {
+    animation: pulse 2s ease-in-out infinite;
+    background: linear-gradient(135deg, var(--accent-color) 0%, #f97316 100%);
+    border: none;
+    color: white;
+    padding: 1rem 2rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 1.1rem;
+    box-shadow: 0 0 20px rgba(245, 158, 11, 0.3);
+    margin: 2rem auto;
+    display: block;
+}
+
+.bounce-animated:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 0 30px rgba(245, 158, 11, 0.5);
+}
+
+/* Custom List Styles */
 .custom-list {
-    list-style-type: none;
-    padding-left: 0;
+    list-style: none;
+    padding: 0;
+    margin: 1.5rem 0;
 }
+
 .custom-list li {
     position: relative;
-    padding-left: 1.5em; /* Adjust this value to control the indentation */
+    padding: 1rem 1rem 1rem 3rem;
+    margin: 0.75rem 0;
+    background: var(--light-bg);
+    border-radius: var(--border-radius);
+    border-left: 4px solid var(--primary-color);
+    box-shadow: var(--shadow-sm);
+    transition: var(--transition);
 }
+
+.custom-list li:hover {
+    background: #f1f5f9;
+    transform: translateX(4px);
+}
+
 .custom-list li::before {
     content: "👉";
     position: absolute;
-    left: 0;
-    top: 0;
+    left: 1rem;
+    top: 50%;
+    transform: translateY(-50%);
+    font-size: 1.2rem;
 }
 
-/* Align input elements in one line with spacing */
+/* Form Elements */
 .input-group {
     display: flex;
     flex-direction: column;
-    width: 250px; /* Fixed width for consistency */
-    margin-bottom: 10px;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
+}
+
+.input-dropdown,
+.DatePickerSingle input {
+    width: 100%;
+    padding: 0.875rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: white;
+}
+
+.input-dropdown:focus,
+.DatePickerSingle input:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
+}
+
+/* Controls Container */
+.controls-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    gap: 1.5rem;
+    padding: 1.5rem;
+    background: var(--card-bg);
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    margin-bottom: 2rem;
+    width: 100%;
+    max-width: 100%; /* Prevent container from scaling beyond parent */
+    box-sizing: border-box; /* Include padding in width calculation */
+}
+
+/* Mobile Toggle Button */
+.d-md-none {
+    display: none;
+}
+
+.d-none {
+    display: none;
+}
+
+.d-md-block {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .d-md-block {
+        display: block !important;
+    }
+}
+
+@media (max-width: 767px) {
+    .d-md-none {
+        display: block !important;
+        position: fixed;
+        top: 1rem;
+        left: 1rem;
+        z-index: 1001;
+        background: var(--primary-color);
+        border: none;
+        color: white;
+        padding: 0.75rem;
+        border-radius: var(--border-radius);
+        box-shadow: var(--shadow-lg);
+        cursor: pointer;
+        transition: var(--transition);
+    }
+    
+    .d-md-none:hover {
+        background: var(--primary-dark);
+        transform: scale(1.05);
+    }
+}
+
+.navbar-toggler-icon {
+    width: 20px;
+    height: 20px;
+    background-image: url("data:image/svg+xml,%3csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 30 30'%3e%3cpath stroke='rgba%28255, 255, 255, 1%29' stroke-linecap='round' stroke-miterlimit='10' stroke-width='2' d='M4 7h22M4 15h22M4 23h22'/%3e%3c/svg%3e");
+    background-repeat: no-repeat;
+    background-position: center;
+    background-size: 100%;
+}
+
+/* Modal Styles */
+.modal-content {
+    border-radius: var(--border-radius);
+    border: none;
+    box-shadow: var(--shadow-lg);
+}
+
+.modal-header {
+    background: linear-gradient(135deg, var(--primary-color) 0%, var(--primary-dark) 100%);
+    color: white;
+    border-radius: var(--border-radius) var(--border-radius) 0 0;
+    padding: 1.5rem;
+}
+
+.modal-body {
+    padding: 2rem;
+}
+
+/* Data Map Styles */
+.data-map {
+    width: 100%;
+    height: 600px;
+    max-width: 100%; /* Prevent map from exceeding container */
+    min-height: 400px; /* Ensure minimum height */
+    max-height: 800px; /* Prevent excessive height scaling */
+    box-sizing: border-box;
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-md);
+    overflow: hidden;
+}
+
+/* Ensure Leaflet map displays properly */
+.leaflet-container {
+    width: 100% !important;
+    height: 100% !important;
+    background: #f8f9fa;
+}
+
+.leaflet-map-pane {
+    z-index: 1;
+}
+
+.leaflet-control-container {
+    font-size: 12px;
+}
+
+/* Ensure the map container has proper display */
+.left-panel .data-map {
+    display: block !important;
+    position: relative;
+}
+
+/* Fix any potential z-index issues */
+.left-panel {
+    position: relative;
+    z-index: 1;
+}
+
+/* Force map visibility */
+#olci-map,
+#mur-map,
+#plankton-map,
+#reflectance-map,
+#transp-map,
+#optics-map,
+#pp-map,
+#ostia-map,
+#poc-map,
+#par-map,
+#pic-map,
+#mod-bio-map,
+#mod-nut-map,
+#mod-car-map,
+#mod-biomass-map,
+#mod-co2-map,
+#mod-optics-map,
+#mod-pfts-map,
+#mod-sal-map {
+    display: block !important;
+    visibility: visible !important;
+    opacity: 1 !important;
+}
+
+/* Ensure the map takes full container space */
+.data-viz-container .left-panel {
+    display: flex !important;
+    flex-direction: column;
+}
+
+.data-viz-container .left-panel .data-map {
+    flex: 1;
+    min-height: 500px;
+}
+
+/* Responsive Design */
+@media (max-width: 1024px) {
+    .controls-container {
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    }
+}
+
+@media (max-width: 767px) {
+    #sidebar {
+        display: none !important; /* Force hide desktop sidebar on mobile */
+    }
+    
+    #mobile-sidebar {
+        display: block;
+    }
+    
+    .content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+    
+    .header-section {
+        padding: 2rem 1rem;
+        text-align: center;
+    }
+    
+    .header-section h1 {
+        font-size: 1.75rem;
+    }
+    
+    .header-section h5 {
+        font-size: 0.9rem;
+    }
+    
+    .header-section p {
+        font-size: 0.85rem;
+    }
+    
+    .controls-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .card {
+        padding: 1.5rem;
+    }
+}
+
+/* Mobile responsiveness for data visualization page */
+@media (max-width: 768px) {
+    /* Data visualization page main container */
+    .data-viz-page {
+        padding: 10px;
+        margin: 0;
+    }
+    
+    /* Tabs container */
+    .nav-tabs {
+        flex-wrap: wrap;
+        font-size: 14px;
+    }
+    
+    .nav-tabs .nav-item {
+        margin-bottom: 5px;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 8px 12px;
+        font-size: 14px;
+        white-space: nowrap;
+    }
+    
+    /* Tab content containers */
+    .tab-content {
+        padding: 10px 5px;
+    }
+    
+    /* Controls container for mobile */
+    .controls-container {
+        padding: 10px;
+        margin-bottom: 15px;
+    }
+    
+    .controls-container .form-group {
+        margin-bottom: 15px;
+    }
+    
+    .controls-container label {
+        font-size: 14px;
+        margin-bottom: 5px;
+    }
+    
+    .controls-container .form-control {
+        font-size: 14px;
+        padding: 8px;
+    }
+    
+    /* Plot button for mobile */
+    .plot-btn {
+        width: 100%;
+        padding: 12px;
+        font-size: 16px;
+        margin: 15px 0;
+    }
+    
+    /* Graph output container */
+    .graph-output {
+        padding: 10px 5px;
+        margin: 10px 0;
+    }
+    
+    /* Leaflet map container for mobile */
+    .data-map {
+        height: 350px !important;
+        min-height: 350px !important;
+        width: 100% !important;
+        margin: 10px 0;
+        border-radius: 8px;
+        overflow: hidden;
+    }
+    
+    .leaflet-container {
+        height: 350px !important;
+        width: 100% !important;
+        touch-action: pan-x pan-y;
+    }
+    
+    /* Leaflet control positioning for mobile */
+    .leaflet-control-container .leaflet-top {
+        top: 10px;
+    }
+    
+    .leaflet-control-container .leaflet-right {
+        right: 10px;
+    }
+    
+    .leaflet-control-zoom {
+        transform: scale(1.2);
+    }
+    
+    /* Left and right panels for mobile */
+    .left-panel {
+        width: 100% !important;
+        margin-bottom: 20px;
+        padding: 10px;
+    }
+    
+    .right-panel {
+        width: 100% !important;
+        padding: 10px;
+    }
+    
+    /* Card components for mobile */
+    .card {
+        margin-bottom: 15px;
+        border-radius: 8px;
+    }
+    
+    .card-header {
+        padding: 10px 15px;
+        font-size: 16px;
+    }
+    
+    .card-body {
+        padding: 15px;
+    }
+    
+    /* Form controls and inputs for mobile */
+    .form-control, .form-select {
+        font-size: 16px; /* Prevents zoom on iOS */
+        padding: 10px;
+        border-radius: 6px;
+    }
+    
+    /* Date picker for mobile */
+    .date-picker-container {
+        margin-bottom: 15px;
+    }
+    
+    .date-picker-container input {
+        font-size: 16px;
+        padding: 10px;
+        width: 100%;
+    }
+    
+    /* About section for mobile */
+    .about-section {
+        padding: 15px;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+    
+    .about-section h5 {
+        font-size: 18px;
+        margin-bottom: 10px;
+    }
+    
+    .about-section h6 {
+        font-size: 16px;
+        margin-bottom: 8px;
+    }
+    
+    .about-section p, .about-section ul {
+        font-size: 14px;
+        margin-bottom: 10px;
+    }
+    
+    /* Dropdown menus for mobile */
+    .dropdown-menu {
+        font-size: 14px;
+        max-height: 200px;
+        overflow-y: auto;
+    }
+    
+    /* Table responsiveness */
+    .table-responsive {
+        border: none;
+        margin-bottom: 15px;
+    }
+    
+    .table {
+        font-size: 14px;
+    }
+    
+    /* Alert messages for mobile */
+    .alert {
+        padding: 10px 15px;
+        font-size: 14px;
+        margin-bottom: 15px;
+    }
+}
+
+/* Very small mobile devices */
+@media (max-width: 480px) {
+    .data-map {
+        height: 300px !important;
+        min-height: 300px !important;
+    }
+    
+    .leaflet-container {
+        height: 300px !important;
+    }
+    
+    .nav-tabs .nav-link {
+        padding: 6px 8px;
+        font-size: 12px;
+    }
+    
+    .controls-container {
+        padding: 8px;
+    }
+    
+    .card-header {
+        padding: 8px 12px;
+        font-size: 14px;
+    }
+    
+    .card-body {
+        padding: 12px;
+    }
+    
+    .plot-btn {
+        padding: 10px;
+        font-size: 14px;
+    }
+    
+    /* Header Section - very small mobile devices */
+    .header-section {
+        padding: 1.5rem 0.75rem;
+    }
+    
+    .header-section h1 {
+        font-size: 1.5rem !important;
+        line-height: 1.2;
+    }
+    
+    .header-section h5 {
+        font-size: 0.8rem !important;
+        line-height: 1.2;
+    }
+    
+    .header-section p {
+        font-size: 0.75rem !important;
+        line-height: 1.3;
+        padding: 0 0.5rem;
+    }
+}
+
+/* Simplified mobile plot container - allow natural rendering */
+@media (max-width: 768px) {
+    /* Basic mobile container without strict constraints */
+    .graph-output {
+        width: 100%;
+        max-width: 100%;
+        padding: 10px;
+        margin: 15px 0;
+        border-radius: 8px;
+        background: #fff;
+        border: 1px solid #ddd;
+        overflow-x: auto; /* Allow horizontal scroll if needed */
+    }
+    
+    /* Right panel adjustments */
+    .right-panel {
+        width: 100% !important;
+        padding: 10px;
+    }
+    
+    .right-panel .card-body {
+        padding: 15px 10px;
+    }
+}
+
+/* Basic mobile plot stabilization without interfering with rendering */
+@media (max-width: 768px) {
+    /* Prevent viewport from scaling beyond screen */
+    .graph-output {
+        max-width: 100vw;
+        overflow-x: auto;
+    }
+    
+    /* Control container width on mobile */
+    .right-panel .card-body {
+        overflow-x: auto;
+        max-width: 100%;
+    }
+}
+
+/* Prevent continuous plot resizing on mobile */
+@media (max-width: 768px) {
+    .js-plotly-plot .plotly .main-svg {
+        max-width: 100% !important;
+    }
+}
+
+/* Focus styles for accessibility */
+button:focus,
+.nav-link:focus,
+input:focus,
+select:focus {
+    outline: 2px solid var(--primary-color);
+    outline-offset: 2px;
+}
+
+/* Print styles */
+@media print {
+    #sidebar,
+    #mobile-sidebar,
+    .d-md-none {
+        display: none !important;
+    }
+    
+    .content {
+        margin-left: 0 !important;
+    }
+    
+    .header-section {
+        background: white !important;
+        color: black !important;
+    }
+}
+
+/* Enhanced scrollbar for webkit browsers */
+::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+}
+
+::-webkit-scrollbar-track {
+    background: var(--light-bg);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+}
+
+::-webkit-scrollbar-thumb:hover {
+    background: var(--text-secondary);
+}
+
+/* Add Nunito Font */
+@import url('https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap');
+
+/* Sidebar Styles */
+.sidebar {
+    width: 280px;
+    background: linear-gradient(180deg, var(--dark-bg) 0%, #374151 100%);
+    border-right: 1px solid var(--border-color);
+    box-shadow: var(--shadow-lg);
+    z-index: 1000;
+    overflow-y: auto;
+    padding: 1.5rem;
+    transition: var(--transition);
+    color: #e5e7eb;
+}
+
+/* Header Section Styles */
+.header-section {
+    background-image: url('/assets/back_ground.jpg');
+    background-size: cover;
+    background-position: center;
+    padding: 2rem 2rem 3rem 2rem; /* Reduced top padding, increased bottom */
+    text-align: center;
+    height: 200px;
+    opacity: 1;
+    margin-top: 0px;
+    margin-bottom: 20px;
+    color: white;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-start; /* Align content to the top */
+    align-items: center;
+    padding-top: 1rem; /* Move text higher */
+}
+
+/* Guide Button Styles */
+.guide-button {
+    font-size: 18px;
+    font-weight: bold;
+}
+
+/* Card Styles */
+.card {
+    border: 1px solid #dee2e6;
+    padding: 10px;
+    margin: 10px;
+}
+
+.agencies-card {
+    background-color: #a4c126;
+}
+
+.total-datasets-card {
+    background-color: #008bad;
+}
+
+.variables-card {
+    background-color: #f3bc00;
+}
+
+.card-title-text {
+    text-align: center;
+    font-weight: bold;
+}
+
+.card-text-circle {
+    font-size: 2em;
+    background-color: white;
+    border-radius: 50%;
+    width: 50px;
+    height: 50px;
+    line-height: 50px;
+    text-align: center;
+    margin: 0 auto;
+}
+
+/* Agencies Description Styles */
+.agencies-title {
+    font-weight: bold;
+}
+
+.programs-title {
+    font-weight: bold;
+}
+
+.list-bold {
+    font-weight: bold;
+}
+
+.agencies-list {
+    margin-bottom: 20px;
+}
+
+.programs-list {
+    margin-bottom: 20px;
+}
+
+.agencies-description {
+    padding: 10px;
+    flex: 1;
+}
+
+/* Data Visualization Page Styles */
+.heading {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1.5rem;
+    text-align: center;
+}
+
+.left-panel {
+    flex: 1;
+    padding: 1rem;
+    min-width: 0; /* Prevent flex items from overflowing */
+    max-width: 50%; /* Limit width to prevent excessive scaling */
+    background: #ffffff; /* Add background to ensure visibility */
+    border-radius: var(--border-radius);
+    box-shadow: var(--shadow-sm);
+}
+
+.right-panel {
+    flex: 1;
+    padding: 1rem;
+    min-width: 0; /* Prevent flex items from overflowing */
+    max-width: 50%; /* Limit width to prevent excessive scaling */
+}
+
+.main-content {
+    display: flex;
+    flex-wrap: wrap;
+    width: 100%;
+    max-width: 100vw; /* Prevent content from exceeding viewport width */
+}
+
+.layout-wrapper {
+    padding: 2rem;
+}
+
+.input-group {
+    display: flex;
+    flex-direction: column;
+    margin-bottom: 1.5rem;
+}
+
+.input-group label {
+    font-weight: 600;
+    color: var(--text-primary);
+    margin-bottom: 0.5rem;
+    font-size: 0.95rem;
 }
 
 .input-dropdown {
     width: 100%;
-    padding: 8px;
-    border-radius: 4px;
-    height: 40px;
-    font-size: 14px;
+    padding: 0.875rem;
+    border: 2px solid var(--border-color);
+    border-radius: var(--border-radius);
+    font-size: 1rem;
+    transition: var(--transition);
+    background: white;
+}
+
+.input-dropdown:focus {
+    outline: none;
+    border-color: var(--primary-color);
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.1);
 }
 
 .input-date-range {
     display: flex;
-    gap: 10px;
-    border-radius: 4px;
+    gap: 1rem;
 }
 
-.input-date-range label {
-    display: block;
-    margin-bottom: 5px;
-}
-
-.DatePickerSingle {
-    width: 100%;  /* Consistent width with other dropdowns */
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 14px;
-}
-
-.DatePickerSingle input {
-    height: 40px;  /* Ensure the input box has the same height */
-    width: 100%;  /* Ensure the input box takes the full width */
-    padding: 8px;
-    border-radius: 4px;
-    font-size: 14px;
-    box-sizing: border-box;  /* Include padding and border in the element's total width and height */
-}
-/* Plot button */
+/* Prevent plot button from scaling */
 .plot-btn {
-    height: 40px;
-    padding: 0 25px;
-    background-color: #007bff;
-    color: white;
-    border: none;
-    border-radius: 5px;
-    font-size: 14px;
-    cursor: pointer;
-    margin-top: 35px; /* Aligns vertically with inputs */
+    transform-origin: center;
+    transform: scale(1) !important; /* Force consistent scale */
 }
 
 .plot-btn:hover {
-    background-color: #0056b3;
+    transform: translateY(-2px) scale(1) !important; /* Maintain scale on hover */
 }
 
-/* Graph output */
-.graph-output {
-    margin-top: 20px;
-    width: 100%;
+.plot-btn {
+    background: var(--primary-color);
+    color: white;
+    padding: 0.875rem 2rem;
+    border-radius: var(--border-radius);
+    font-weight: 600;
+    font-size: 1rem;
+    cursor: pointer;
+    transition: var(--transition);
+    box-shadow: var(--shadow-md);
+    border: none;
+    width: auto; /* Prevent automatic width scaling */
+    max-width: 200px; /* Limit maximum width */
+    min-width: 120px; /* Ensure minimum width */
+    height: auto; /* Prevent height scaling */
+    box-sizing: border-box; /* Include padding in width calculation */
 }
 
-/* Responsive adjustments */
-/* Responsive design for smaller screens */
-@media (max-width: 768px) {
-    .controls-row {
+.plot-btn:hover {
+    background: var(--primary-dark);
+    transform: translateY(-2px);
+    box-shadow: var(--shadow-lg);
+}
+
+/* Fix graph scaling issues */
+.graph-output .js-plotly-plot {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+.graph-output .plotly {
+    width: 100% !important;
+    max-width: 100% !important;
+}
+
+/* Additional Plotly graph controls */
+.graph-output .plotly .plotly-graph-div {
+    width: 100% !important;
+    height: auto !important;
+    max-width: 100% !important;
+}
+
+/* Force consistent sizing for all plot elements */
+.plotly .main-svg {
+    max-width: 100% !important;
+    width: 100% !important;
+}
+
+/* Control axis label sizing */
+.plotly .gtitle,
+.plotly .xtitle,
+.plotly .ytitle {
+    font-size: 14px !important;
+}
+
+/* Control axis tick sizing */
+.plotly .xaxislayer-above text,
+.plotly .yaxislayer-above text {
+    font-size: 12px !important;
+}
+
+/* Responsive adjustments for data visualization */
+@media (max-width: 1200px) {
+    .left-panel,
+    .right-panel {
+        max-width: none;
+        flex-basis: 100%;
+        min-height: 400px; /* Ensure minimum height for map visibility */
+    }
+    
+    .main-content {
         flex-direction: column;
-        align-items: stretch;
     }
-
-    .input-dropdown, .plot-btn, .variable-dropdown {
-        width: 100%;  /* Full width for small screens */
+    
+    .data-map {
+        height: 400px;
+        min-height: 400px;
     }
 }
 
+@media (max-width: 768px) {
+    .controls-container {
+        grid-template-columns: 1fr;
+        padding: 1rem;
+    }
+    
+    .input-date-range {
+        flex-direction: column;
+        gap: 0.5rem;
+    }
+    
+    .plot-btn {
+        width: 100%;
+        max-width: none;
+        margin: 1rem 0;
+    }
+    
+    .data-map {
+        height: 300px;
+    }
+}
 
+/* Enhanced touch support for mobile devices */
+@media (max-width: 768px) {
+    /* Better touch targets */
+    .btn, .nav-link, .dropdown-item, .form-control, .form-select {
+        min-height: 44px; /* Apple's recommended touch target size */
+        touch-action: manipulation; /* Disable double-tap zoom */
+    }
+    
+    /* Leaflet map touch enhancements */
+    .leaflet-container {
+        touch-action: pan-x pan-y pinch-zoom;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    .leaflet-control-zoom a {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+        font-size: 18px;
+    }
+    
+    .leaflet-bar a {
+        width: 44px;
+        height: 44px;
+        line-height: 44px;
+    }
+    
+    /* Tab navigation touch improvements */
+    .nav-tabs .nav-link {
+        min-height: 44px;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        touch-action: manipulation;
+    }
+    
+    /* Form input improvements for mobile */
+    input[type="text"], input[type="number"], input[type="date"], select, textarea {
+        -webkit-appearance: none;
+        -moz-appearance: none;
+        appearance: none;
+        border-radius: 8px;
+        font-size: 16px; /* Prevents zoom on iOS */
+    }
+    
+    /* Dropdown improvements */
+    .dropdown-toggle {
+        min-height: 44px;
+        touch-action: manipulation;
+    }
+    
+    /* Plot button touch improvements */
+    .plot-btn {
+        min-height: 44px;
+        touch-action: manipulation;
+        -webkit-tap-highlight-color: transparent;
+    }
+    
+    /* Prevent text selection on buttons and controls */
+    .btn, .nav-link, .dropdown-toggle {
+        -webkit-user-select: none;
+        -moz-user-select: none;
+        -ms-user-select: none;
+        user-select: none;
+    }
+}
 
+/* Footer Styles */
+.footer {
+    padding: 20px 0;
+    background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%);
+    border-top: 2px solid #dee2e6;
+    margin-top: 2rem;
+    box-shadow: 0 -2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* Footer Logo */
+.footer-logo {
+    height: 50px;
+    transition: transform 0.3s ease;
+}
+
+.footer-logo:hover {
+    transform: scale(1.1);
+}
+
+/* Footer Social Icons */
+.footer-social-icons {
+    display: flex;
+    align-items: center;
+    gap: 15px;
+    flex-wrap: wrap;
+    justify-content: center;
+}
+
+.footer-social-icons a {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    width: 40px;
+    height: 40px;
+    border-radius: 50%;
+    background: rgba(255, 255, 255, 0.8);
+    transition: all 0.3s ease;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
+}
+
+.footer-social-icons a:hover {
+    transform: translateY(-3px);
+    box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+}
+
+/* Footer Links */
+.footer-links {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    align-items: center;
+}
+
+.footer-links a {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    text-decoration: none;
+    color: #495057;
+    font-size: 14px;
+    font-weight: 500;
+    transition: color 0.3s ease;
+    padding: 5px 10px;
+    border-radius: 20px;
+    background: rgba(255, 255, 255, 0.6);
+}
+
+.footer-links a:hover {
+    color: #007bff;
+    background: rgba(0, 123, 255, 0.1);
+}
+
+/* Footer Copyright */
+.footer-copyright {
+    font-size: 12px;
+    color: #6c757d;
+    margin: 0;
+    padding: 5px 0;
+    font-weight: 400;
+}
+
+/* Footer Acknowledgment */
+.footer-acknowledgment {
+    font-size: 10px;
+    color: #6c757d;
+    text-align: center;
+    margin: 15px 0 0 0;
+    padding: 15px 20px;
+    background: rgba(255, 255, 255, 0.5);
+    border-radius: 15px;
+    line-height: 1.4;
+}
+
+/* Desktop Layout */
+@media (min-width: 769px) {
+    .footer-desktop-layout {
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+        max-width: 1200px;
+        margin: 0 auto;
+        padding: 0 20px;
+    }
+    
+    .footer-left {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+    
+    .footer-center {
+        width: 2px;
+        height: 60px;
+        background: linear-gradient(to bottom, #dee2e6, #adb5bd);
+        border-radius: 1px;
+    }
+    
+    .footer-right {
+        display: flex;
+        flex-direction: column;
+        align-items: flex-start;
+        gap: 8px;
+    }
+    
+    .footer-social-icons {
+        justify-content: flex-start;
+    }
+    
+    .footer-links {
+        align-items: flex-start;
+    }
+}
+
+/* Tablet Layout */
+@media (max-width: 768px) and (min-width: 481px) {
+    .footer {
+        padding: 25px 15px;
+    }
+    
+    .footer-desktop-layout {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 20px;
+        text-align: center;
+    }
+    
+    .footer-center {
+        display: none;
+    }
+    
+    .footer-logo {
+        height: 45px;
+    }
+    
+    .footer-social-icons a {
+        width: 35px;
+        height: 35px;
+    }
+    
+    .footer-links a {
+        font-size: 13px;
+    }
+    
+    .footer-copyright {
+        font-size: 11px;
+    }
+    
+    .footer-acknowledgment {
+        font-size: 9px;
+        padding: 12px 15px;
+    }
+}
+
+/* Mobile Layout */
+@media (max-width: 480px) {
+    .footer {
+        padding: 20px 10px;
+    }
+    
+    .footer-desktop-layout {
+        display: flex;
+        flex-direction: column;
+        gap: 15px;
+        text-align: center;
+    }
+    
+    .footer-center {
+        display: none;
+    }
+    
+    .footer-logo {
+        height: 40px;
+    }
+    
+    .footer-social-icons {
+        gap: 10px;
+        justify-content: center;
+    }
+    
+    .footer-social-icons a {
+        width: 32px;
+        height: 32px;
+    }
+    
+    .footer-social-icons i {
+        font-size: 14px !important;
+    }
+    
+    .footer-links a {
+        font-size: 12px;
+        padding: 4px 8px;
+    }
+    
+    .footer-links i {
+        font-size: 12px;
+    }
+    
+    .footer-copyright {
+        font-size: 10px;
+        line-height: 1.3;
+    }
+    
+    .footer-acknowledgment {
+        font-size: 8px;
+        padding: 10px 12px;
+        line-height: 1.3;
+    }
+}
+
+/* Main Content Area */
+.content {
+    margin-left: 280px;
+    min-height: 100vh;
+    padding: 2rem;
+    transition: var(--transition);
+}
+
+@media (max-width: 768px) {
+    .content {
+        margin-left: 0;
+        padding: 1rem;
+    }
+}
+
+/* Mobile sidebar specific styles */
+@media (max-width: 767px) {
+    /* Ensure offcanvas has proper dark styling */
+    .offcanvas {
+        background: linear-gradient(180deg, #111827 0%, #374151 100%) !important;
+        color: #e5e7eb !important;
+        border: none !important;
+    }
+    
+    .offcanvas-header {
+        background: #111827 !important;
+        color: #e5e7eb !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    .offcanvas-title {
+        color: #e5e7eb !important;
+    }
+    
+    .btn-close {
+        filter: invert(1) !important;
+    }
+    
+    /* Mobile sidebar navigation styles */
+    #mobile-sidebar .nav-link {
+        color: #e5e7eb !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 0.75rem !important;
+        margin: 0.25rem 0 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    #mobile-sidebar .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+    }
+    
+    /* Mobile sidebar button styles */
+    #mobile-sidebar .btn {
+        background: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #e5e7eb !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 0.75rem !important;
+        margin: 0.25rem 0 !important;
+        width: 100% !important;
+        text-align: left !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    #mobile-sidebar .btn:hover,
+    #mobile-sidebar .btn:focus,
+    #mobile-sidebar .btn:active {
+        background: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+    }
+    
+    /* Ensure collapsible sections work in mobile */
+    #mobile-sidebar .collapse {
+        transition: height 0.35s ease !important;
+    }
+    
+    #mobile-sidebar .collapsing {
+        transition: height 0.35s ease !important;
+    }
+    
+    /* Mobile sidebar header styles */
+    #mobile-sidebar h2 {
+        color: #d1d5db !important;
+        font-size: 1rem !important;
+        font-weight: 600 !important;
+        margin: 1rem 0 0.5rem 0 !important;
+        padding-bottom: 0.5rem !important;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1) !important;
+    }
+    
+    /* Mobile sidebar icons */
+    #mobile-sidebar .fas {
+        margin-right: 0.75rem !important;
+        width: 18px !important;
+        text-align: center !important;
+    }
+    
+    /* Fix for button clickability on mobile */
+    #mobile-sidebar button {
+        cursor: pointer !important;
+        -webkit-tap-highlight-color: transparent !important;
+        touch-action: manipulation !important;
+    }
+    
+    /* Ensure proper spacing in mobile sidebar */
+    #mobile-sidebar .mb-2 {
+        margin-bottom: 0.5rem !important;
+    }
+    
+    /* Fix for nested navigation */
+    #mobile-sidebar .nav-link[style*="paddingLeft: '20px'"],
+    #mobile-sidebar .nav-link[style*="paddingLeft: '40px'"] {
+        padding-left: 2rem !important;
+    }
+}
+
+/* Additional fixes for mobile sidebar functionality */
+@media (max-width: 767px) {
+    /* Override any conflicting Bootstrap styles */
+    .offcanvas .btn {
+        background-color: transparent !important;
+        border: 1px solid rgba(255, 255, 255, 0.2) !important;
+        color: #e5e7eb !important;
+    }
+    
+    .offcanvas .btn:hover,
+    .offcanvas .btn:focus,
+    .offcanvas .btn:active {
+        background-color: rgba(255, 255, 255, 0.1) !important;
+        border-color: rgba(255, 255, 255, 0.3) !important;
+        color: #ffffff !important;
+        box-shadow: none !important;
+    }
+    
+    /* Ensure mobile sidebar collapse animations work */
+    .offcanvas .collapse {
+        transition: height 0.35s ease !important;
+    }
+    
+    .offcanvas .collapse.show {
+        height: auto !important;
+    }
+    
+    .offcanvas .collapsing {
+        transition: height 0.35s ease !important;
+        overflow: hidden !important;
+    }
+    
+    /* Fix for Bootstrap Offcanvas z-index */
+    .offcanvas {
+        z-index: 1055 !important;
+    }
+    
+    .offcanvas-backdrop {
+        z-index: 1050 !important;
+    }
+    
+    /* Ensure mobile sidebar navigation works */
+    .offcanvas .nav-link {
+        color: #e5e7eb !important;
+        text-decoration: none !important;
+        display: flex !important;
+        align-items: center !important;
+        padding: 0.75rem 1rem !important;
+        border-radius: 0.75rem !important;
+        margin: 0.25rem 0 !important;
+        transition: all 0.3s ease !important;
+    }
+    
+    .offcanvas .nav-link:hover {
+        background: rgba(255, 255, 255, 0.1) !important;
+        color: #ffffff !important;
+    }
+}
+
+/* Force mobile button clickability */
+@media (max-width: 767px) {
+    .offcanvas button {
+        pointer-events: auto !important;
+        cursor: pointer !important;
+        user-select: none !important;
+    }
+    
+    .offcanvas .btn[disabled] {
+        pointer-events: none !important;
+    }
+}
+
+/* Additional scrollbar improvements for mobile sidebar */
